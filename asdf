@@ -109,3 +109,20 @@ plt.barh(features, importances)
 plt.title("Feature Importance (Random Forest)")
 plt.xlabel("Importance Score")
 plt.show()
+new_car = pd.DataFrame({
+    'km_driven': [15000],
+    'mileage': [18],
+    'engine': [1197],
+    'max_power': [81],
+    'seats': [5],
+    'fuel': [1],           
+    'seller_type': [0],    
+    'transmission': [0],   
+    'owner': [0],          
+    'num_year': [6]     
+})
+new_car=new_car[X.columns]  
+new_car_scaled = scaler.transform(new_car)
+predicted_price = rf_model.predict(new_car_scaled)
+print("\n===== Predicted Price for New Car =====")
+print(predicted_price[0])
