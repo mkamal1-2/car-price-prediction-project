@@ -10,6 +10,8 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 df = pd.read_csv("Car details v3.csv")
 
+df.head()
+
 df['mileage'] = df['mileage'].str.replace(' kmpl', '', regex=False)
 df['mileage'] = pd.to_numeric(df['mileage'], errors='coerce')
 df['engine'] = df['engine'].str.replace(' CC', '', regex=False)
@@ -17,16 +19,61 @@ df['engine'] = pd.to_numeric(df['engine'], errors='coerce')
 df['max_power'] = df['max_power'].str.replace(' bhp', '', regex=False)
 df['max_power'] = pd.to_numeric(df['max_power'], errors='coerce')
 df.drop('torque', axis=1, inplace=True)
+
+df.head(15)
+
+df.shape
+
+df.isnull().sum()
+
 df.dropna(inplace=True)
+df.isnull().sum()
+
+df.describe()
+
 df['num_year'] = 2026 - df['year']
 df.drop('year', axis=1, inplace=True)
-df.drop_duplicates(inplace=True)
 
-df.replace({'fuel':{'Diesel':0, 'Petrol':1, 'CNG':2, 'LPG':3}}, inplace=True)
-df.replace({'seller_type':{'Individual':0, 'Dealer':1, 'Trustmark Dealer':2}}, inplace=True)
-df.replace({'transmission':{'Manual':0, 'Automatic':1}}, inplace=True)
-df.replace({'owner':{'First Owner':0, 'Second Owner':1, 'Third Owner':2,
-                     'Fourth & Above Owner':3, 'Test Drive Car':4}}, inplace=True)
+df.head()
+
+df['fuel'].value_counts()
+
+df['seller_type'].value_counts()
+
+df['transmission'].value_counts()
+
+df['owner'].value_counts()
+
+df.duplicated().sum()
+
+df.drop_duplicates(inplace = True)
+
+df.info()
+
+sns.countplot(x = 'fuel', data = df);
+
+sns.countplot(x = 'seller_type', data = df);
+
+sns.countplot(x = 'transmission', data = df);
+
+sns.countplot(x = 'owner', data = df);
+
+
+df.replace({'fuel':{'Diesel':0, 'Petrol':1, 'CNG':2, 'LPG':3}}, inplace = True)
+df.replace({'seller_type':{'Individual':0, 'Dealer':1, 'Trustmark Dealer':2}}, inplace = True)
+df.replace({'transmission':{'Manual':0, 'Automatic':1}}, inplace = True)
+df.replace({'owner':{'First Owner':0, 'Second Owner':1, 'Third Owner':2, 'Fourth & Above Owner':3, 'Test Drive Car':4}}, inplace = True)
+df['fuel'] = pd.to_numeric(df['fuel'], errors='coerce')
+df['seller_type'] = pd.to_numeric(df['seller_type'], errors='coerce')
+df['transmission'] = pd.to_numeric(df['transmission'], errors='coerce')
+df['owner'] = pd.to_numeric(df['owner'], errors='coerce')
+
+fig, axes = plt.subplots(2, 2, figsize = (16,10))
+fig.suptitle('Visualization of Numerical columns')
+sns.regplot(x = 'num_year', y = 'selling_price', data = df, ax = axes[0,0])
+sns.regplot(x = 'seller_type', y = 'selling_price', data = df, ax = axes[0,1])
+sns.regplot(x = 'mileage', y = 'selling_price', data = df, ax = axes[1,0])
+sns.regplot(x = 'owner', y = 'selling_price', data = df, ax = axes[1,1]);
 
 X = df.drop(['selling_price', 'name'], axis=1)
 Y = df['selling_price']
