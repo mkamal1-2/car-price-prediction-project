@@ -29,8 +29,6 @@ df.isnull().sum()
 df.dropna(inplace=True)
 df.isnull().sum()
 
-df.describe()
-
 df['num_year'] = 2026 - df['year']
 df.drop('year', axis=1, inplace=True)
 
@@ -49,6 +47,8 @@ df['transmission'].value_counts()
 df['owner'].value_counts()
 
 df.info()
+
+df.describe()
 
 sns.countplot(x = 'fuel', data = df);
 
