@@ -1,2 +1,1 @@
-# Car Price Prediction Project initial commit
-# nothing
+print("Car Price Prediction Project ")
